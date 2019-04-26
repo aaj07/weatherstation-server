@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+  db:
+    image: mariadb:10.3.11
+    volumes:
+      - /docker/weatherstation/data:/var/lib/mysql
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_DATABASE: master_table
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+  weatherstation_server:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+      - "2807:2807/udp"
+    environment:
+      DB_HOST: db
+    restart: on-failure

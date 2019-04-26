@@ -1,0 +1,75 @@
+doctype html
+html
+meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+head
+  script(src='/js/chart-2.5.0.min.js')
+  script(src='/socket.io/socket.io.js')
+  script(src='/js/jquery-3.2.1.min.js')
+  script(src='/js/bootstrap-4.0.0.min.js')
+  script(src='/js/sb-admin.min.js')
+  script(src='/js/jquery.easing.min.js')
+  link(rel='stylesheet', href='/css/bootstrap-4.0.0.min.css', crossorigin='anonymous')
+  link(rel='stylesheet', href='/css/font-awesome.min.css', crossorigin='anonymous')
+  link(rel='stylesheet', href='/css/sb-admin.min.css', crossorigin='anonymous')
+html
+  body#page-top.fixed-nav.sticky-footer.bg-dark
+  // Navigation
+  include menu.jade
+  .content-wrapper
+    .container-fluid
+      p
+        |MAC-Adress:
+        form(method='post', action='/SetMacName')
+          select#selectMacAdress(name = "selectMacAdress", onchange='check();')
+          input#selectedMacAdressName(type='text', name='macName')
+          input(type='submit', value='Submit')
+        script.
+          var allNames = !{allNames};
+          var allMacAdresses = !{allAvailableMac};
+          var ctxDropDownMacs = document.getElementById("selectMacAdress");
+          function check() {
+            document.getElementById("selectedMacAdressName").value=allNames[ctxDropDownMacs.selectedIndex]; // Both arrays have the same order. Therefore we can use the current index for the correct name.
+          }
+          allMacAdresses.forEach(function(macAdress){
+            var element = document.createElement("option");
+            element.textContent = macAdress;
+            element.value = macAdress;
+            ctxDropDownMacs.appendChild(element);
+          });
+          check(); //Call check once, so that the initial loaded page already has the name included.
+        div#temperatureContainer
+          |Temperature:
+          span#temperature no data yet
+        div#humidityContainer
+          |Humidity:
+          span#humidity no data yet
+        div#chartContainer
+          h1 Temperature 
+          canvas#TemperatureChart(width='100%', height='50%')
+          h1 Humidity 
+          canvas#HumidityChart(width='100%', height='50%')
+    // /.container-fluid
+    // /.content-wrapper
+    footer.sticky-footer
+      .container
+        .text-center
+          small Copyright © Your Website 2018
+    // Scroll to Top Button
+    a.scroll-to-top.rounded(href='#page-top')
+      i.fa.fa-angle-up
+    // Logout Modal
+    #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            h5#exampleModalLabel.modal-title Ready to Leave?
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+          .modal-body Select "Logout" below if you are ready to end your current session.
+          .modal-footer
+            button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+            a.btn.btn-primary(href='login.html') Logout
+  include footer.jade
+  script(src="/js/dataGetter.js")
+  script(src="/js/chartHelper.js")
+  script(src="/js/index.js")

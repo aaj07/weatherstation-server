@@ -1,0 +1,73 @@
+doctype html
+html
+meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+head
+  script(src='/js/chart-2.5.0.min.js')
+  script(src='/socket.io/socket.io.js')
+  script(src='/js/jquery-3.2.1.min.js')
+  script(src='/js/bootstrap-4.0.0.min.js')
+  script(src='/js/sb-admin.min.js')
+  script(src='/js/jquery.easing.min.js')
+  script(src='/js/bootstrap-slider.min.js')
+  link(rel='stylesheet', href='/css/bootstrap-slider.min.css', crossorigin='anonymous')
+  link(rel='stylesheet', href='/css/bootstrap-4.0.0.min.css', crossorigin='anonymous')
+  link(rel='stylesheet', href='/css/font-awesome.min.css', crossorigin='anonymous')
+  link(rel='stylesheet', href='/css/sb-admin.min.css', crossorigin='anonymous')
+title=title
+
+html
+  body#page-top.fixed-nav.sticky-footer.bg-dark
+  // Navigation
+  include menu.jade
+  .content-wrapper
+    .container-fluid
+      h1 Temperature and Humidity
+      div(class="row")
+        div(class="col-md-4")
+          b clients
+          select#selectMacAdress(class="form-control", name = "selectMacAdress")
+        div#timeRangeSliderContainer(class="col-md-8")
+          span#timeRangeSliderCurrentSliderValLabel
+          | Time Range: 
+          span#timeRangeSliderMinVal
+          |  - 
+          span#timeRangeSliderMaxVal
+          #slider_area
+      div#chartContainer
+        h1 Temperature 
+        canvas#TemperatureChart(width='100%', height='50%')
+        h1 Humidity 
+        canvas#HumidityChart(width='100%', height='50%')
+      include footer.jade
+    // Scroll to Top Button
+    a.scroll-to-top.rounded(href='#page-top')
+      i.fa.fa-angle-up
+    // Logout Modal
+    #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            h5#exampleModalLabel.modal-title Ready to Leave?
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+          .modal-body Select "Logout" below if you are ready to end your current session.
+          .modal-footer
+            button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+            a.btn.btn-primary(href='login.html') Logout
+    
+    script.
+      var allMacAdresses = !{ allAvailableMac };
+      var ctxDropDownMacs = document.getElementById("selectMacAdress");
+      allMacAdresses.forEach(function (macElement) {
+        var element = document.createElement("option");
+        if ((typeof (macElement.name) == 'undefined') || (macElement.name == null)) {
+          element.textContent = macElement.macAdress;
+        } else {
+          element.textContent = macElement.name;
+        }
+        element.value = macElement.macAdress;
+        ctxDropDownMacs.appendChild(element);
+      });
+    script(src="/js/dataGetter.js")
+    script(src="/js/chartHelper.js")
+    script(src="/js/history.js")

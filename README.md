@@ -1,6 +1,6 @@
 # Weatherstation - Server
 
-[![CircleCI](https://circleci.com/gh/aaj07/weatherstation-server.svg?style=svg)](https://circleci.com/gh/aaj07/weatherstation-server)
+[![Build Status](https://travis-ci.com/aaj07/weatherstation-server.svg?branch=master)](https://travis-ci.com/aaj07/weatherstation-server)
 
 This project provides a server for a weatherstation.
 It listens to predefined UDP messages in its current network, stores the retrieved data based on the content and visualizes it.

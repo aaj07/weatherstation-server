@@ -14,7 +14,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
 
   weatherstation_server:
-    build: .
+    image: aaj07/weatherstation-server:latest
     depends_on:
       - db
     ports:

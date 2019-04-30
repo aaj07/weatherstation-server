@@ -7,20 +7,29 @@ It listens to predefined UDP messages in its current network, stores the retriev
 
 See also [Weatherstation Client](https://github.com/aaj07/weatherstation-client).
 
-## Installation
+## Building and starting the server
 
-For the installation of the server, ```docker-compose``` and ```docker``` are required.
+For building and starting of the server, ```docker-compose``` and ```docker``` are required.
 
-1. Open the terminal.
-2. Go to the folder, where the project is located.
-3. ```$ docker-compose build```
+## Starting the server
 
-If you want to start server:
+To directly start the server, without building it, one can use pre-built docker images.
 
-1. Open the terminal.
-2. ```$ docker-compose up```.
+```docker-compose -f docker-compose.yml up```
 
-## Input Data
+This will, based on the defined version in the docker-compose.yml, pull a pre-built docker image of the weatherstation in the given version. See [Docker Hub](https://hub.docker.com/r/aaj07/weatherstation-server) for the available versions.  
+
+## Building the server
+
+In order to freshly build an image (e.g.: to include new changes), a second docker-compose file is used, to override the standard configuration.
+
+```docker-compose -f docker-compose.yml -f docker-compose.override.yml build```
+
+And then starting it:
+
+```docker-compose -f docker-compose.yml -f docker-compose.override.yml up```
+
+## Input data
 
 The input data is based on UDP messages. Currently only the temperature and the humidity are supported, but further can be added.
 
@@ -28,7 +37,7 @@ The input data is based on UDP messages. Currently only the temperature and the 
 
 The format of the UDP messages can be seen here: [UDP message structure](https://github.com/aaj07/weatherstation-client#udp-message-structure).
 
-## Data Visualization
+## Data visualization
 
 The data is visualized on a http server.
 

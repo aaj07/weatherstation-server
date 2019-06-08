@@ -14,7 +14,7 @@ head
 html
   body#page-top.fixed-nav.sticky-footer.bg-dark
   // Navigation
-  include menu.jade
+  include menu.pug
   .content-wrapper
     .container-fluid
       p
@@ -69,7 +69,7 @@ html
           .modal-footer
             button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
             a.btn.btn-primary(href='login.html') Logout
-  include footer.jade
+  include footer.pug
   script(src="/js/dataGetter.js")
   script(src="/js/chartHelper.js")
   script(src="/js/index.js")

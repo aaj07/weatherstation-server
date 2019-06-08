@@ -35,7 +35,7 @@ var IndexPage = require('./routes/IndexPage');
 app.use('/', IndexPage);
 
 // --- Setting the view engine
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/public'));
 
 // --- Websocket ---

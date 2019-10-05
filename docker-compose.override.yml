@@ -6,5 +6,5 @@ services:
     image: aaj07/weatherstation-datahandler:dev
 
   weatherstation_server:
-    build: .
+    build: webserver
     image: aaj07/weatherstation-server:dev

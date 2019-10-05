@@ -1,6 +1,10 @@
 version: '3.3'
 
 services:
+  datahandler:
+    build: datahandler
+    image: aaj07/weatherstation-datahandler:dev
+
   weatherstation_server:
     build: .
     image: aaj07/weatherstation-server:dev

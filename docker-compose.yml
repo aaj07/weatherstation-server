@@ -24,6 +24,7 @@ services:
     image: aaj07/weatherstation-server:latest
     depends_on:
       - db
+      - datahandler
     ports:
       - "8000:8000"
       - "2807:2807/udp"

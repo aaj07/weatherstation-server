@@ -1,4 +1,4 @@
-// Globally scoped object to remmber the database connection.
+// Globally scoped object to remember the database connection.
 var MyDataBaseHandler = {};
 
 module.exports = DataBaseHandler;
@@ -39,6 +39,9 @@ DataBaseHandler.prototype.createDatabase = function(dataBaseName) {
   console.log(`Database [`, dataBaseName, `] created`);
 }
 
+DataBaseHandler.prototype.getLimitedNrOfValuesBasedOnTableNameFromDB = function(dataBaseName, tableName, limit, orderBy, callback) {
+  getLimitedNrOfValuesFromDB(this.connection, dataBaseName, tableName, limit, orderBy, callback)
+}
 DataBaseHandler.prototype.getLimitedNrOfTemperatureValuesFromDB = function(dataBaseName, limit, orderBy, callback) {
   getLimitedNrOfValuesFromDB(this.connection, dataBaseName, `temperature`, limit, orderBy, callback);
 }

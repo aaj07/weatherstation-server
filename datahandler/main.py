@@ -1,4 +1,5 @@
 import paho.mqtt.client as mqtt
+import paho.mqtt.publish as mqtt_publish
 import pymysql as mysql
 import datetime
 from os import environ
@@ -16,6 +17,8 @@ mydb = mysql.connect(
   autocommit=True
 )
 
+mqtt_host = "192.168.178.99"
+
 # The callback for when the client receives a CONNACK response from the server.
 def on_mqtt_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
@@ -32,18 +35,21 @@ def insert_into_table(database, table, timestamp, value):
     print(f"CREATE TABLE IF NOT EXISTS MAC_{database}.{table} (timestamp TIMESTAMP UNIQUE, {table} FLOAT(3,1)")
     print(f"INSERT INTO MAC_{database}.{table} (timestamp, {table}) VALUES ('{timestamp}', '{value}')")
     with mydb.cursor() as cursor:
+        publish = False
         nr_of_affected_rows = cursor.execute(f"CREATE DATABASE IF NOT EXISTS MAC_{database}")
-        print(f"Affected Row: {nr_of_affected_rows}")
+        publish = publish or bool(nr_of_affected_rows)
         nr_of_affected_rows = cursor.execute(f"CREATE TABLE IF NOT EXISTS MAC_{database}.{table} (timestamp TIMESTAMP UNIQUE, {table} FLOAT(3,1))")
-        print(f"Affected Row: {nr_of_affected_rows}")
+        publish = publish or bool(nr_of_affected_rows)
         nr_of_affected_rows = cursor.execute(f"INSERT INTO MAC_{database}.{table} (timestamp, {table}) VALUES ('{timestamp}', '{value}')")
-        print(f"Affected Row: {nr_of_affected_rows}")
+        publish = publish or bool(nr_of_affected_rows)
+        if publish:
+          mqtt_publish.single(f"db/newValues/{database}", table, hostname=mqtt_host)
 
 def main():
   client = mqtt.Client()
   client.on_connect = on_mqtt_connect
   client.on_message = on_mqtt_message
-  client.connect("192.168.178.99", 1883, 60)
+  client.connect(mqtt_host, 1883, 60)
   client.loop_forever()
 
 main()

@@ -9,6 +9,21 @@ HttpHandler.prototype.throwEvent = function(eventType, data){
   this.io.emit(eventType, data);
 }
 
+HttpHandler.prototype.handleNewUpdateForMacDataType = function(macAdress, dataType){
+  var _self = this
+  this.dataBaseHandler.getLimitedNrOfValuesBasedOnTableNameFromDB(macAdress, dataType, 1, 'timestamp DESC', function (err, dataFromDB){
+    if (!err) {
+      var datapackageToClient = {}
+      datapackageToClient['macAdress'] = macAdress;
+      datapackageToClient['timeStamp'] = dataFromDB[0].timestamp;
+      datapackageToClient['value'] = dataFromDB[0][dataType]
+      _self.throwEvent(dataType + ' update', datapackageToClient);
+    } else {
+      console.log(err);
+    }
+  });
+}
+
 function onIoConnect(dataBaseHandler, io) {
   io.on('connection', function onConnection(socket) {
     onSocketDisconnect(socket);

@@ -1,10 +1,4 @@
 
-
-function handleMsgToClients(msgType, datapackageToClient, httpHandler) {
-  console.log('Informing the clients about a \'', msgType, '\' change!');
-  httpHandler.throwEvent(msgType + ' update', datapackageToClient);
-}
-
 module.exports = MqttHandler;
 
 function MqttHandler(mqtt, dataBaseHandler, httpHandler) {
@@ -18,8 +12,14 @@ function onMqttUpdateForTopic(mqtt, httpHandler){
   mqttClient.subscribe('db/newValues/#')
   mqttClient.on('message', function (topic, message) {
       var topics = topic.split('/')
-      httpHandler.handleNewUpdateForMacDataType("MAC_" + topics[2], message.toString())
-  })
+      
+      if(topics[1] == "newValues"){
+        httpHandler.handleNewUpdateForMacDataType("MAC_" + topics[2], message.toString())
+      }
+      else if(topics[1] == "newMac"){
+        httpHandler.throwEvent('mac update', "MAC_" + topics[2]);
+      }
+    })
 }
 MqttHandler.prototype.handleMqtt = function () {
   onMqttUpdateForTopic(this.mqtt, this.httpHandler)

@@ -1,7 +1,6 @@
 var socket = io().connect();
+
 $('#selectMacAdress').change(function () {
-  var ts = Math.round((new Date()).getTime() / 1000);
-  var tsYesterday = ts - (24 * 3600); //Get the values from now and the last 24 hours.
   updateChartForThePast24hours()
 });
 $(function () {
@@ -29,7 +28,12 @@ $(function () {
     ctxDropDownMacs.appendChild(element);
   });
 })
-updateChartForThePast24hours()
+if (!!$('#selectMacAdress').val()) {
+  console.log("No mac adress yet given");
+} else {
+  console.log("Updating with the mac value " + $('#selectMacAdress').val())
+  updateChartForThePast24hours()
+}
 
 function updateChartForThePast24hours() {
   getUpdateForChartBasedOnTimeStamps(get24hPastTimeStamp(), getCurrentTimeStamp());

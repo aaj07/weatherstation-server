@@ -54,14 +54,14 @@ describe('Accessing the mastertable successfully ', function () {
   });
   it('should allow to get all mac adresses.', function () {
     uut.getAllMacAdresses(function (error, result) {
-      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT mac,name FROM master_table.master_table', jasmine.any(Function));
+      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT mac,name FROM master_data_base.master_table', jasmine.any(Function));
       expect(error).toBe(null);
       expect(result).toBe(true);
     });
   });
   it('should allow to get all names for the mac adresses.', function () {
     uut.getAllNamesForTheMacAdress(function (error, result) {
-      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT name FROM master_table.master_table', jasmine.any(Function));
+      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT name FROM master_data_base.master_table', jasmine.any(Function));
       expect(error).toBe(null);
       expect(result).toBe(true);
     });
@@ -77,14 +77,14 @@ describe('Accessing the mastertable not successfully ', function () {
   });
   it('should handle the erro when trying to get all mac adresses.', function () {
     uut.getAllMacAdresses(function (error, result) {
-      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT mac,name FROM master_table.master_table', jasmine.any(Function));
+      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT mac,name FROM master_data_base.master_table', jasmine.any(Function));
       expect(error).toBe(true);
       expect(result).toBe(null);
     });
   });
   it('should allow to get all names for the mac adresses.', function () {
     uut.getAllNamesForTheMacAdress(function (error, result) {
-      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT name FROM master_table.master_table', jasmine.any(Function));
+      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT name FROM master_data_base.master_table', jasmine.any(Function));
       expect(error).toBe(true);
       expect(result).toBe(null);
     });

@@ -4,11 +4,12 @@ var MyDataBaseHandler = {};
 module.exports = DataBaseHandler;
 
 function DataBaseHandler(mysql, host, user, password) {
-  this.mysql = mysql;
-  this.host = host;
-  this.user = user;
-  this.password = password;
-  this.masterTableName = `master_table`;
+  this.mysql = mysql
+  this.host = host
+  this.user = user
+  this.password = password
+  this.masterDataBaseName = `master_data_base`
+  this.masterTableName = `master_table`
 }
 
 DataBaseHandler.prototype.createDatabaseConnection = function(error) {
@@ -87,12 +88,12 @@ function getAllValuesFromDB(connection, dataBaseName, tableName, callback){
 }
 
 DataBaseHandler.prototype.getAllMacAdresses = function(callback) {
-  var sql = `SELECT mac,name FROM ${this.masterTableName}.${this.masterTableName}`; //TODO: Rename the database name
+  var sql = `SELECT mac,name FROM ${this.masterDataBaseName}.${this.masterTableName}`;
   writeQueryToConnection(this.connection, sql, callback);
 }
 
 DataBaseHandler.prototype.getAllNamesForTheMacAdress = function(callback) {
-  sql = `SELECT name FROM ${this.masterTableName}.${this.masterTableName}`;
+  sql = `SELECT name FROM ${this.masterDataBaseName}.${this.masterTableName}`;
   writeQueryToConnection(this.connection, sql, callback);
 }
 

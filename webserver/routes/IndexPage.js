@@ -12,7 +12,7 @@ router.get('/', function (req, res) {
         allMacAdressesConverted.push(element.mac);
         allNamesConverted.push(element.name);
       });
-
+      
       res.render('index', {
         allAvailableMac: JSON.stringify(allMacAdressesConverted),
         allNames: JSON.stringify(allNamesConverted)
@@ -37,7 +37,7 @@ router.post('/SetMacName', function (req, res) {
   }
   var selectedMac = req.body.selectMacAdress;
   var macName = req.body.macName;
-  req.app.locals.dataBaseHandler.updateValueOfKeyInTable('master_table', 'master_table', selectedMac, 'mac', macName, 'name');
+  req.app.locals.dataBaseHandler.updateValueOfKeyInTable('master_data_base', 'master_table', selectedMac, 'mac', macName, 'name');
 });
 
 module.exports = router;

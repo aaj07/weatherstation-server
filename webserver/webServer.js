@@ -48,18 +48,6 @@ exports.server = http.listen(8000, function() {
   console.log(http.address())
 })
 
-var nameMasterTable = 'master_table'
-myDataBaseHandler.createDatabase(nameMasterTable)
-myDataBaseHandler.createTable(nameMasterTable, nameMasterTable, {
-    columnName: 'mac',
-    dataType: 'CHAR(16)'
-  }, {
-    columnName: 'name',
-      dataType: 'TINYTEXT'
-    }, {
-      columnName: 'status',
-      dataType: 'TINYTEXT'
-    })
 
 var httpHandler = require('./controller/HttpHandler')
 var myHttpHandler = new httpHandler(io, myDataBaseHandler)

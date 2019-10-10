@@ -1,10 +1,10 @@
 var socket = io().connect();
 // First we need to check, whether any mac has been selected. If so, we can send the initial request.
-if ($('#selectMacAdress').val() === "") {
-  console.log("No mac adress yet given");
-} else {
+if (!!$('#selectMacAdress').val()) {
   console.log($('#selectMacAdress').val());
   getUpdateForMac()
+} else {
+  console.log("No mac adress given. Time to fetch an update.");
 }
 $(function () {
   $('#selectMacAdress').change(function () {

@@ -50,7 +50,14 @@ def insert_into_table(database, table, timestamp, value):
         publish = False
         nr_of_affected_rows = cursor.execute(f"CREATE DATABASE IF NOT EXISTS {mac_modified}")
         publish = publish or bool(nr_of_affected_rows)
-        nr_of_affected_rows = cursor.execute(f"CREATE TABLE IF NOT EXISTS {mac_modified}.{table} (timestamp TIMESTAMP UNIQUE, {table} FLOAT(3,1))")
+        if table == "humidity":
+            nr_of_affected_rows = cursor.execute(f"CREATE TABLE IF NOT EXISTS {mac_modified}.{table} (timestamp TIMESTAMP UNIQUE, {table} TINYINT)")
+            value = round(float(value))
+        elif table == "temperature":
+            nr_of_affected_rows = cursor.execute(f"CREATE TABLE IF NOT EXISTS {mac_modified}.{table} (timestamp TIMESTAMP UNIQUE, {table} FLOAT(3,1))")
+            value = round(float(value)*2)/2
+        else:
+            print(f"Unknown table type '{table}'!")
         publish = publish or bool(nr_of_affected_rows)
         nr_of_affected_rows = cursor.execute(f"INSERT INTO {mac_modified}.{table} (timestamp, {table}) VALUES ('{timestamp}', '{value}')")
         publish = publish or bool(nr_of_affected_rows)

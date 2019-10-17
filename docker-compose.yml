@@ -8,15 +8,23 @@ services:
     restart: on-failure
     environment:
       MYSQL_ROOT_PASSWORD: ""
-      MYSQL_DATABASE: master_table
+      MYSQL_DATABASE: master_data_base
       MYSQL_USER: root
       MYSQL_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
 
+  datahandler:
+    image: aaj07/weatherstation-datahandler:latest
+    depends_on:
+      - db
+    environment:  
+      DB_HOST: db
+    
   weatherstation_server:
     image: aaj07/weatherstation-server:latest
     depends_on:
       - db
+      - datahandler
     ports:
       - "8000:8000"
       - "2807:2807/udp"

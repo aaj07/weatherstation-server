@@ -1,14 +1,15 @@
-// Globally scoped object to remmber the database connection.
+// Globally scoped object to remember the database connection.
 var MyDataBaseHandler = {};
 
 module.exports = DataBaseHandler;
 
 function DataBaseHandler(mysql, host, user, password) {
-  this.mysql = mysql;
-  this.host = host;
-  this.user = user;
-  this.password = password;
-  this.masterTableName = `master_table`;
+  this.mysql = mysql
+  this.host = host
+  this.user = user
+  this.password = password
+  this.masterDataBaseName = `master_data_base`
+  this.masterTableName = `master_table`
 }
 
 DataBaseHandler.prototype.createDatabaseConnection = function(error) {
@@ -39,6 +40,9 @@ DataBaseHandler.prototype.createDatabase = function(dataBaseName) {
   console.log(`Database [`, dataBaseName, `] created`);
 }
 
+DataBaseHandler.prototype.getLimitedNrOfValuesBasedOnTableNameFromDB = function(dataBaseName, tableName, limit, orderBy, callback) {
+  getLimitedNrOfValuesFromDB(this.connection, dataBaseName, tableName, limit, orderBy, callback)
+}
 DataBaseHandler.prototype.getLimitedNrOfTemperatureValuesFromDB = function(dataBaseName, limit, orderBy, callback) {
   getLimitedNrOfValuesFromDB(this.connection, dataBaseName, `temperature`, limit, orderBy, callback);
 }
@@ -84,12 +88,12 @@ function getAllValuesFromDB(connection, dataBaseName, tableName, callback){
 }
 
 DataBaseHandler.prototype.getAllMacAdresses = function(callback) {
-  var sql = `SELECT mac,name FROM ${this.masterTableName}.${this.masterTableName}`; //TODO: Rename the database name
+  var sql = `SELECT mac,name FROM ${this.masterDataBaseName}.${this.masterTableName}`;
   writeQueryToConnection(this.connection, sql, callback);
 }
 
 DataBaseHandler.prototype.getAllNamesForTheMacAdress = function(callback) {
-  sql = `SELECT name FROM ${this.masterTableName}.${this.masterTableName}`;
+  sql = `SELECT name FROM ${this.masterDataBaseName}.${this.masterTableName}`;
   writeQueryToConnection(this.connection, sql, callback);
 }
 

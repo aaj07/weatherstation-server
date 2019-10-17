@@ -3,3 +3,7 @@ node_js:
   - 10
 cache:
   - "node_modules"
+script:
+  - cd webserver
+  - npm install
+  - npm test

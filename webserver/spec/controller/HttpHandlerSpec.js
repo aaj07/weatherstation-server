@@ -6,10 +6,6 @@ var app = express(); // The () make it an instance.
 var http = require('http').Server(app); // Create an express based http server
 var io = require('socket.io')(http);
 
-var allTempTimeStamps = [];
-var allTemperatures = [];
-var masterTable = 'master_table';
-
 var testNrOfDatapoints = 5;
 var testTimeStamp = 9876;
 var uut = new httpHandler(io, concreteDataBaseHandler);

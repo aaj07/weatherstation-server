@@ -43,7 +43,6 @@ def on_mqtt_message(client, userdata, msg):
     topicssplitup = msg.topic.split('/')
     insert_into_table(topicssplitup[1], topicssplitup[2], datetime.datetime.utcnow(), msg.payload.decode('utf-8'))
 
-
 def insert_into_table(database, table, timestamp, value):
     mac_modified = f"MAC_{database}"
     with mydb.cursor() as cursor:
@@ -59,8 +58,19 @@ def insert_into_table(database, table, timestamp, value):
         else:
             print(f"Unknown table type '{table}'!")
         publish = publish or bool(nr_of_affected_rows)
-        nr_of_affected_rows = cursor.execute(f"INSERT INTO {mac_modified}.{table} (timestamp, {table}) VALUES ('{timestamp}', '{value}')")
-        publish = publish or bool(nr_of_affected_rows)
+
+        cursor.execute(f"SELECT * FROM {mac_modified}.{table} ORDER BY timestamp DESC LIMIT 2")
+        alldata = cursor.fetchall()
+        update_old_key = False
+        if len(alldata) > 1:
+            update_old_key = (value == alldata[0][1] == alldata[1][1])
+        if update_old_key:
+            nr_of_affected_rows = cursor.execute(f"UPDATE {mac_modified}.{table} SET timestamp='{timestamp}' WHERE timestamp='{alldata[0][0]}'")
+            publish = publish or bool(nr_of_affected_rows)
+        else:
+            nr_of_affected_rows = cursor.execute(f"INSERT INTO {mac_modified}.{table} (timestamp, {table}) VALUES ('{timestamp}', '{value}')")
+            publish = publish or bool(nr_of_affected_rows)
+            
         if publish:
             mqtt_publish.single(f"db/newValues/{database}", table, hostname=mqtt_host)
         

@@ -70,20 +70,6 @@ function onGetMinAndMaxTimestampForMac(socket, dataBaseHandler) {
   })
 }
 
-//This function is used to remove some duplicate values. The first and the last values are kept. But only in adjacent entries.
-//[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 3, 2, 1, 1, 1, 1 ]
-// will be following:
-//[ 1, 1, 2, 2, 3, 4, 3, 2, 1, 1 ]
-function removeDuplicateValuesKeepingTheFirstAndTheLast(element, index, array) {
-  if (array[index - 1] === undefined) {
-    return true;
-  } else if (array[index + 1] === undefined) {
-    return true;
-  } else {
-    return (element[this] !== array[index - 1][this] || element[this] !== array[index + 1][this])
-  }
-}
-
 function convertUnixTimeStamp(timestamp){
   return moment(new Date(timestamp * 1000)).format("YYYY-MM-DD HH:mm:ss");
 }
@@ -93,10 +79,8 @@ function onGetTempDataForTimeGivenTimespanForMac(socket, dataBaseHandler) {
     var toTimeStampConverted =  convertUnixTimeStamp(data.toTimeStamp);
     dataBaseHandler.getTemperatureValuesBetweenTimeStampsFromDB(data.macAdress, fromTimeStampConverted, toTimeStampConverted, function (err, dataFromDB) {
       if (!err) {
-        filterDataFromDB = dataFromDB.filter(removeDuplicateValuesKeepingTheFirstAndTheLast, 'temperature');
-        console.log("Temperature Data: Reduced size from \'" + dataFromDB.length + "\' to \'" + filterDataFromDB.length + "\'!");
         socket.emit('setLastTempDataByMac', {
-          data: filterDataFromDB
+          data: dataFromDB
         });
       } else {
         console.log(err);
@@ -111,10 +95,8 @@ function onGetHumDataForTimeGivenTimespanForMac(socket, dataBaseHandler) {
     var toTimeStampConverted = convertUnixTimeStamp(data.toTimeStamp);
     dataBaseHandler.getHumidityValuesBetweenTimeStampsFromDB(data.macAdress, fromTimeStampConverted, toTimeStampConverted, function (err, dataFromDB) {
       if (!err) {
-        filterDataFromDB = dataFromDB.filter(removeDuplicateValuesKeepingTheFirstAndTheLast, 'humidity');
-        console.log("Humidity Data: Reduced size from \'" + dataFromDB.length + "\' to \'" + filterDataFromDB.length + "\'!");
         socket.emit('setLastHumDataByMac', {
-          data: filterDataFromDB
+          data: dataFromDB
         });
       } else {
         console.log(err);

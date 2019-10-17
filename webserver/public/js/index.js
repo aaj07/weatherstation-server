@@ -28,7 +28,7 @@ $(function () {
     ctxDropDownMacs.appendChild(element);
   });
 })
-if (!!$('#selectMacAdress').val()) {
+if (!$('#selectMacAdress').val()) {
   console.log("No mac adress yet given");
 } else {
   console.log("Updating with the mac value " + $('#selectMacAdress').val())

@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/aaj07/weatherstation-server.svg?branch=master)](https://travis-ci.com/aaj07/weatherstation-server)
 
 This project provides a server for a weatherstation.
-It listens to predefined UDP messages in its current network, stores the retrieved data based on the content and visualizes it.
+It subscribes to various MQTT topics, stores the retrieved data based on the content and visualizes it.
 
 See also [Weatherstation Client](https://github.com/aaj07/weatherstation-client).
 
@@ -17,7 +17,7 @@ To directly start the server, without building it, one can use pre-built docker 
 
 ```docker-compose -f docker-compose.yml up```
 
-This will, based on the defined version in the docker-compose.yml, pull a pre-built docker image of the weatherstation in the given version. See [Docker Hub](https://hub.docker.com/r/aaj07/weatherstation-server) for the available versions.  
+This will, based on the defined version in the docker-compose.yml, pull two pre-built docker images of the weatherstation in the given version. For the available versions, please see the [weatherstation server](https://hub.docker.com/r/aaj07/weatherstation-server) and the [weatherstation datahandler](https://hub.docker.com/r/aaj07/weatherstation-datahandler).
 
 ## Building the server
 
@@ -31,11 +31,29 @@ And then starting it:
 
 ## Input data
 
-The input data is based on UDP messages. Currently only the temperature and the humidity are supported, but further can be added.
+The input data is based on MQTT. Currently the temperature and the humidity are stored to a database. Whenever new values are stored, the values are automatically updated in the visualization.
 
-### Structure
+### MQTT topics
 
-The format of the UDP messages can be seen here: [UDP message structure](https://github.com/aaj07/weatherstation-client#udp-message-structure).
+Following mqtt topics are currently in use for the visualization and storing of the data.
+
+#### esp\/\#
+
+This topic is used to insert new values to the database.
+The [weatherstation client](https://github.com/aaj07/weatherstation-client) can be used for publishing new data. The expected format is: ```esp/UID/VALUE_TYPE```.
+The [weatherstation client](https://github.com/aaj07/weatherstation-client) uses the ```mac adress``` of the device as ```UID``` and either the ```humidity``` or the ```temperature``` for the ```VALUE_TYPE```.
+
+#### db\/newValues\/\#
+
+This topic is used to update the visualization of the data.
+
+##### db\/newValues\/newValues
+
+Whenever any new value has been stored for a given ```UID```, the ```UID``` is published as value for this topic. The visualization then retrieves the latest data for the ```UID```.
+
+##### db\/newValues\/newMac
+
+Whenever a new ```UID``` has been stored, this topic is used to publish the new ```UID```.
 
 ## Data visualization
 

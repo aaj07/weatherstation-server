@@ -27,7 +27,6 @@ services:
       - datahandler
     ports:
       - "8000:8000"
-      - "2807:2807/udp"
     environment:
       DB_HOST: db
     restart: on-failure

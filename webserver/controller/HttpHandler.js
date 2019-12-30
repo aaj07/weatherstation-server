@@ -26,12 +26,13 @@ HttpHandler.prototype.handleNewUpdateForMacDataType = function(macAdress, dataTy
 
 function onIoConnect(dataBaseHandler, io) {
   io.on('connection', function onConnection(socket) {
-    onSocketDisconnect(socket);
-    onSocketGetLastTempDataByMac(socket, dataBaseHandler);
-    onSocketGetLastHumDataByMac(socket, dataBaseHandler);
-    onGetMinAndMaxTimestampForMac(socket, dataBaseHandler);
-    onGetTempDataForTimeGivenTimespanForMac(socket, dataBaseHandler);
-    onGetHumDataForTimeGivenTimespanForMac(socket, dataBaseHandler);
+    onSocketDisconnect(socket)
+    onSocketGetLastTempDataByMac(socket, dataBaseHandler)
+    onSocketGetLastHumDataByMac(socket, dataBaseHandler)
+    onGetMinAndMaxTimestampForMac(socket, dataBaseHandler)
+    onGetTempDataForTimeGivenTimespanForMac(socket, dataBaseHandler)
+    onGetHumDataForTimeGivenTimespanForMac(socket, dataBaseHandler)
+    onSocketError(socket)
   });
 }
 
@@ -45,6 +46,12 @@ function onSocketDisconnect(socket) {
 
 function disconnectSocket() {
   console.log("Socket disconnected!");
+}
+
+function onSocketError(socket) {
+  socket.on('error', (error) => {
+    console.log(error)
+  });
 }
 
 function onGetMinAndMaxTimestampForMac(socket, dataBaseHandler) {

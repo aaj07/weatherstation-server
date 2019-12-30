@@ -22,7 +22,7 @@ mydb = mysql.connect(
 )
 
 
-mqtt_host = "192.168.178.99"
+mqtt_host = "192.168.178.100"
 
 
 def initialize_db():

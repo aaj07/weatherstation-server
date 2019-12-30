@@ -19,12 +19,12 @@ services:
       - db
     environment:  
       DB_HOST: db
+    restart: on-failure
     
   weatherstation_server:
     image: aaj07/weatherstation-server:latest
     depends_on:
       - db
-      - datahandler
     ports:
       - "8000:8000"
     environment:

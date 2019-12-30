@@ -8,7 +8,7 @@ function MqttHandler(mqtt, dataBaseHandler, httpHandler) {
 }
 
 function onMqttUpdateForTopic(mqtt, httpHandler){
-  var mqttClient = mqtt.connect({host: '192.168.178.99', port: '1883', protocol: 'mqtt'})
+  var mqttClient = mqtt.connect({host: '192.168.178.100', port: '1883', protocol: 'mqtt'})
   mqttClient.subscribe('db/newValues/#')
   mqttClient.on('message', function (topic, message) {
       var topics = topic.split('/')

@@ -29,9 +29,11 @@ function onIoConnect(dataBaseHandler, io) {
     onSocketDisconnect(socket)
     onSocketGetLastTempDataByMac(socket, dataBaseHandler)
     onSocketGetLastHumDataByMac(socket, dataBaseHandler)
+    onSocketGetLastVoltDataByMac(socket, dataBaseHandler)
     onGetMinAndMaxTimestampForMac(socket, dataBaseHandler)
     onGetTempDataForTimeGivenTimespanForMac(socket, dataBaseHandler)
     onGetHumDataForTimeGivenTimespanForMac(socket, dataBaseHandler)
+    onGetVoltDataForTimeGivenTimespanForMac(socket, dataBaseHandler)
     onSocketError(socket)
   });
 }
@@ -112,6 +114,22 @@ function onGetHumDataForTimeGivenTimespanForMac(socket, dataBaseHandler) {
   })
 }
 
+function onGetVoltDataForTimeGivenTimespanForMac(socket, dataBaseHandler) {
+  socket.on('getVoltDataForTimeGivenTimespanForMac', function (data) {
+    var fromTimeStampConverted = convertUnixTimeStamp(data.fromTimeStamp);
+    var toTimeStampConverted = convertUnixTimeStamp(data.toTimeStamp);
+    dataBaseHandler.getVoltageValuesBetweenTimeStampsFromDB(data.macAdress, fromTimeStampConverted, toTimeStampConverted, function (err, dataFromDB) {
+      if (!err) {
+        socket.emit('setLastVoltDataByMac', {
+          data: dataFromDB
+        });
+      } else {
+        console.log(err);
+      }
+    })
+  })
+}
+
 function onSocketGetLastTempDataByMac(socket, dataBaseHandler) {
   socket.on('getLastTempDataByMac', function (data) {
     dataBaseHandler.getLimitedNrOfTemperatureValuesFromDB(data.macAdress, data.nrOfDatapoints, 'timestamp DESC', function (err, dataFromDB){
@@ -132,6 +150,19 @@ function onSocketGetLastHumDataByMac(socket, dataBaseHandler) {
     dataBaseHandler.getLimitedNrOfHumidityValuesFromDB(data.macAdress, data.nrOfDatapoints, 'timestamp DESC', function (err, dataFromDB){
       if (!err) {
         socket.emit('setLastHumDataByMac', {
+          data: dataFromDB
+        });
+      } else {
+        console.log(err);
+      }
+    });
+  });
+}
+function onSocketGetLastVoltDataByMac(socket, dataBaseHandler) {
+  socket.on('getLastVoltDataByMac', function (data) {
+    dataBaseHandler.getLimitedNrOfHumidityValuesFromDB(data.macAdress, data.nrOfDatapoints, 'timestamp DESC', function (err, dataFromDB){
+      if (!err) {
+        socket.emit('setLastVoltDataByMac', {
           data: dataFromDB
         });
       } else {

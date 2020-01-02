@@ -234,6 +234,79 @@ describe('Get humidity not successfully for ', function () {
   });
 });
 
+describe('Get voltage successfully for ', function () {
+  beforeEach(function () {
+    uut.connection = mysqlConnectionFake;
+    spyOn(mysqlConnectionFake, 'query').and.callFake(function(){
+      arguments[1](null, true);
+    })
+  });
+
+  it('limited number of values from db.', function () {
+    var limit = '10';
+    var orderBy = 'ASC';
+
+    uut.getLimitedNrOfVoltageValuesFromDB(testDataBaseName, limit, orderBy, function (error, result) {
+
+      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT * FROM ' + testDataBaseName + '.' + 'voltage ORDER BY ' + orderBy + ' LIMIT ' + limit, jasmine.any(Function));
+      expect(error).toBe(null);
+      expect(result).toBe(true);
+    });
+  });
+  it('all values from db.', function () {
+    uut.getAllVoltageValuesFromDB(testDataBaseName, function (error, result) {
+      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT * FROM ' + testDataBaseName + '.' + 'voltage', jasmine.any(Function));
+      expect(error).toBe(null);
+      expect(result).toBe(true);
+    });
+  });
+  it('values between two timestamps.', function () {
+    var fromTimeStamp = '2018-03-17 15:09:49';
+    var toTimeStamp = '2018-03-17 15:21:54';
+    uut.getVoltageValuesBetweenTimeStampsFromDB(testDataBaseName, fromTimeStamp, toTimeStamp, function(error, result){
+      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT * FROM ' + testDataBaseName + '.' + 'voltage WHERE timestamp BETWEEN \'' + fromTimeStamp + '\' AND \'' + toTimeStamp + '\'', jasmine.any(Function));
+      expect(error).toBe(null);
+      expect(result).toBe(true);
+    });
+  });
+});
+
+describe('Get voltage not successfully for ', function () {
+  beforeEach(function () {
+    uut.connection = mysqlConnectionFake;
+    spyOn(mysqlConnectionFake, 'query').and.callFake(function(){
+      arguments[1](true, null);
+    })
+  });
+  it('limited number of values from db.', function () {
+    var limit = '10';
+    var orderBy = 'ASC';
+
+    uut.getLimitedNrOfVoltageValuesFromDB(testDataBaseName, limit, orderBy, function (error, result) {
+
+      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT * FROM ' + testDataBaseName + '.' + 'voltage ORDER BY ' + orderBy + ' LIMIT ' + limit, jasmine.any(Function));
+      expect(error).toBe(true);
+      expect(result).toBe(null);
+    });
+  });
+  it('all values from db.', function () {
+    uut.getAllVoltageValuesFromDB(testDataBaseName, function (error, result) {
+      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT * FROM ' + testDataBaseName + '.' + 'voltage', jasmine.any(Function));
+      expect(error).toBe(true);
+      expect(result).toBe(null);
+    });
+  });
+  it('values between two timestamps.', function () {
+    var fromTimeStamp = '2018-03-17 15:09:49';
+    var toTimeStamp = '2018-03-17 15:21:54';
+    uut.getVoltageValuesBetweenTimeStampsFromDB(testDataBaseName, fromTimeStamp, toTimeStamp, function(error, result){
+      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT * FROM ' + testDataBaseName + '.' + 'voltage WHERE timestamp BETWEEN \'' + fromTimeStamp + '\' AND \'' + toTimeStamp + '\'', jasmine.any(Function));
+      expect(error).toBe(true);
+      expect(result).toBe(null);
+    });
+  });
+});
+
 describe('Table functions ', function () {
   beforeEach(function () {
     uut.connection = mysqlConnectionFake;

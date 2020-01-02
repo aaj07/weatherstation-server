@@ -9,7 +9,7 @@ $(function () {
       var temperature = datapackageFromServer.value;
       var timeStamp = datapackageFromServer.timeStamp;
       addData(TemperatureChart, temperature, timeStamp);
-      $('#temperature').text(datapackageFromServer.value + '° C');
+      $('#temperature').text(temperature + '° C');
     }
   });
   socket.on('humidity update', function (datapackageFromServer) {
@@ -17,7 +17,15 @@ $(function () {
       var humidity = datapackageFromServer.value;
       var timeStamp = datapackageFromServer.timeStamp;
       addData(HumidityChart, humidity, timeStamp);
-      $('#humidity').text(datapackageFromServer.value + '%');
+      $('#humidity').text(humidity + '%');
+    }
+  });
+  socket.on('voltage update', function (datapackageFromServer) {
+    if ($('#selectMacAdress').val() == datapackageFromServer.macAdress) {
+      var voltage = datapackageFromServer.value;
+      var timeStamp = datapackageFromServer.timeStamp;
+      addData(VoltageChart, voltage, timeStamp);
+      $('#voltage').text(voltage + ' V');
     }
   });
   socket.on('mac update', function (newMacAdress) {

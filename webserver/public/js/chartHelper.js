@@ -18,6 +18,15 @@ $(function () {
     })
     updateData(HumidityChart, allHumidities, allHumTimeStamps, chartColors.blue, 0, 100)
   })
+  socket.on('setLastVoltDataByMac', function (data) {
+    allTempTimeStamps = []
+    allVoltages = []
+    data.data.forEach(element => {
+      allTempTimeStamps.push(element.timestamp)
+      allVoltages.push(element.voltage)
+    })
+    updateData(VoltageChart, allVoltages, allTempTimeStamps, chartColors.purple, 0, 4)
+  })
 })
 
 var chartColors = {
@@ -36,6 +45,9 @@ TemperatureChart = assignChartToCanvas('#TemperatureChart', {
 HumidityChart = assignChartToCanvas('#HumidityChart', {
   label: 'Humidity'
 }, chartColors.blue, 0, 100)
+VoltageChart = assignChartToCanvas('#VoltageChart', {
+  label: 'Voltage'
+}, chartColors.purple, 0, 4)
 
 function assignChartToCanvas(chartId, datas, color, min, max) {
   var ctxChart = $(chartId)

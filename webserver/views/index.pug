@@ -38,16 +38,21 @@ html
           });
           check(); //Call check once, so that the initial loaded page already has the name included.
         div#temperatureContainer
-          |Temperature:
+          |Temperature: 
           span#temperature no data yet
         div#humidityContainer
-          |Humidity:
+          |Humidity: 
           span#humidity no data yet
+        div#voltageContainer
+          |Voltage: 
+          span#voltage no data yet
         div#chartContainer
           h1 Temperature 
           canvas#TemperatureChart(width='100%', height='50%')
           h1 Humidity 
           canvas#HumidityChart(width='100%', height='50%')
+          h1 Voltage 
+          canvas#VoltageChart(width='100%', height='50%')
     // /.container-fluid
     // /.content-wrapper
     footer.sticky-footer

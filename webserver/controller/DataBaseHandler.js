@@ -49,6 +49,9 @@ DataBaseHandler.prototype.getLimitedNrOfTemperatureValuesFromDB = function(dataB
 DataBaseHandler.prototype.getLimitedNrOfHumidityValuesFromDB = function(dataBaseName, limit, orderBy, callback) {
   getLimitedNrOfValuesFromDB(this.connection, dataBaseName, `humidity`, limit, orderBy, callback);
 }
+DataBaseHandler.prototype.getLimitedNrOfVoltageValuesFromDB = function(dataBaseName, limit, orderBy, callback) {
+  getLimitedNrOfValuesFromDB(this.connection, dataBaseName, `voltage`, limit, orderBy, callback);
+}
 function getLimitedNrOfValuesFromDB(connection, dataBaseName, tableName, limit, orderBy, callback) {
   var sql = `SELECT * FROM ${dataBaseName}.${tableName} ORDER BY ${orderBy} LIMIT ${limit}`;
   writeQueryToConnection(connection, sql, callback);
@@ -59,6 +62,9 @@ DataBaseHandler.prototype.getTemperatureValuesBetweenTimeStampsFromDB = function
 }
 DataBaseHandler.prototype.getHumidityValuesBetweenTimeStampsFromDB = function(dataBaseName, fromTimeStamp, toTimeStamp, callback) {
   getValuesBetweenTimeStampsFromDB(this.connection, dataBaseName, `humidity`, fromTimeStamp, toTimeStamp, callback);
+}
+DataBaseHandler.prototype.getVoltageValuesBetweenTimeStampsFromDB = function(dataBaseName, fromTimeStamp, toTimeStamp, callback) {
+  getValuesBetweenTimeStampsFromDB(this.connection, dataBaseName, `voltage`, fromTimeStamp, toTimeStamp, callback);
 }
 function getValuesBetweenTimeStampsFromDB(connection, dataBaseName, tableName, fromTimeStamp, toTimeStamp, callback) {
   var sql = `SELECT * FROM ${dataBaseName}.${tableName} WHERE timestamp BETWEEN \'${fromTimeStamp}\' AND \'${toTimeStamp}\'`;
@@ -81,6 +87,9 @@ DataBaseHandler.prototype.getAllTemperatureValuesFromDB = function(dataBaseName,
 }
 DataBaseHandler.prototype.getAllHumidityValuesFromDB = function(dataBaseName, callback) {
   getAllValuesFromDB(this.connection, dataBaseName, `humidity`, callback);
+}
+DataBaseHandler.prototype.getAllVoltageValuesFromDB = function(dataBaseName, callback) {
+  getAllValuesFromDB(this.connection, dataBaseName, `voltage`, callback);
 }
 function getAllValuesFromDB(connection, dataBaseName, tableName, callback){
   var sql = `SELECT * FROM ${dataBaseName}.${tableName}`;

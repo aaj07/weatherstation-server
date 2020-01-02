@@ -3,7 +3,6 @@ var router = express.Router();
 var dataBaseHandler = require('../controller/DataBaseHandler');
 
 router.get('/', function (req, res) {
-  //res.sendFile(__dirname + '/index.html');
   req.app.locals.dataBaseHandler.getAllMacAdresses(function (err, macAdresses) {
     if (!err) {
       var allMacAdressesConverted = [];

@@ -1,24 +1,23 @@
-var socket = io().connect();
+var socket = io().connect()
 $(function () {
   socket.on('setLastTempDataByMac', function (data) {
-    allTempTimeStamps = [];
-    allTemperatures = [];
+    allTempTimeStamps = []
+    allTemperatures = []
     data.data.forEach(element => {
-      allTempTimeStamps.push(element.timestamp);
-      allTemperatures.push(element.temperature);
-    });
-    updateData(TemperatureChart, allTemperatures, allTempTimeStamps, chartColors.red, 0, 40);
-  });
-  //when we receive setLastDataByMac, do this
+      allTempTimeStamps.push(element.timestamp)
+      allTemperatures.push(element.temperature)
+    })
+    updateData(TemperatureChart, allTemperatures, allTempTimeStamps, chartColors.red, 0, 40)
+  })
   socket.on('setLastHumDataByMac', function (data) {
-    allHumTimeStamps = [];
-    allHumidities = [];
+    allHumTimeStamps = []
+    allHumidities = []
     data.data.forEach(element => {
-      allHumTimeStamps.push(element.timestamp);
-      allHumidities.push(element.humidity);
-    });
-    updateData(HumidityChart, allHumidities, allHumTimeStamps, chartColors.blue, 0, 100);
-  });
+      allHumTimeStamps.push(element.timestamp)
+      allHumidities.push(element.humidity)
+    })
+    updateData(HumidityChart, allHumidities, allHumTimeStamps, chartColors.blue, 0, 100)
+  })
 })
 
 var chartColors = {
@@ -29,17 +28,17 @@ var chartColors = {
   blue: 'rgb(54, 162, 235)',
   purple: 'rgb(153, 102, 255)',
   grey: 'rgb(231,233,237)'
-};
+}
 
 TemperatureChart = assignChartToCanvas('#TemperatureChart', {
   label: 'Temperatures'
-}, chartColors.red, 0, 40);
+}, chartColors.red, 0, 40)
 HumidityChart = assignChartToCanvas('#HumidityChart', {
   label: 'Humidity'
-}, chartColors.blue, 0, 100);
+}, chartColors.blue, 0, 100)
 
 function assignChartToCanvas(chartId, datas, color, min, max) {
-  var ctxChart = $(chartId);
+  var ctxChart = $(chartId)
   return new Chart(ctxChart, {
     type: 'line',
     data: {
@@ -60,26 +59,28 @@ function assignChartToCanvas(chartId, datas, color, min, max) {
         }]
       }
     }
-  });
+  })
 }
 function addData(chart, newData, timeStamp) {
-  var oldestTimeStampOfTheChart = Date.parse(chart.data.labels[0])/1000;
+  var oldestTimeStampOfTheChart = Date.parse(chart.data.labels[0])/1000
   var timeStamp24hpast = Math.round((new Date()).getTime() / 1000) - (24*3600)
-  console.log("oldest time stamp \'", oldestTimeStampOfTheChart, "\' < \'", timeStamp24hpast);
   if (oldestTimeStampOfTheChart < timeStamp24hpast) { 
-    chart.data.labels.splice(0, 1); // remove first label
-    chart.data.datasets[0].data.splice(0, 1); // remove first data point
-    chart.update();
+    chart.data.labels.splice(0, 1) // remove first label
+    chart.data.datasets[0].data.splice(0, 1) // remove first data point
+    chart.update()
   }
-  chart.data.labels.push(timeStamp); // add new label at end
-  chart.data.datasets[0].data.push(newData); // add new data at end
-  chart.update();
+  chart.data.labels.push(timeStamp) // add new label at end
+  chart.data.datasets[0].data.push(newData) // add new data at end
+  chart.update()
 }
 function updateData(chart, newData, newLabels, color, min, max) {
-  chart.data.datasets[0].data = newData;
-  chart.data.labels = newLabels;
-  chart.data.datasets[0].borderColor = color;
-  chart.options.scales.yAxes[0].ticks.min = min;
-  chart.options.scales.yAxes[0].ticks.max = max;
-  chart.update(0);
+  chart.data.datasets[0].data = newData
+  chart.data.labels = newLabels
+  chart.data.datasets[0].borderColor = color
+  chart.options.scales.yAxes[0].ticks.min = min
+  chart.options.scales.yAxes[0].ticks.max = max
+  chart.options.scales.xAxes[0] = {
+    type: 'time'
+  }
+  chart.update(0)
 }

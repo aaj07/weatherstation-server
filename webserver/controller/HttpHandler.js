@@ -162,7 +162,7 @@ function onSocketGetLastVoltDataByMac(socket, dataBaseHandler) {
   socket.on('getLastVoltDataByMac', function (data) {
     dataBaseHandler.getLimitedNrOfHumidityValuesFromDB(data.macAdress, data.nrOfDatapoints, 'timestamp DESC', function (err, dataFromDB){
       if (!err) {
-        socket.emit('setLastHumDataByMac', {
+        socket.emit('setLastVoltDataByMac', {
           data: dataFromDB
         });
       } else {

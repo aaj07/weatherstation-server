@@ -30,3 +30,12 @@ services:
     environment:
       DB_HOST: db
     restart: on-failure
+
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    network_mode: host
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    restart: on-failure

@@ -18,7 +18,8 @@ mydb = mysql.connect(
     user="root",
     passwd="",
     database=db_name,
-    autocommit=True
+    autocommit=True,
+    connect_timeout=120
 )
 
 

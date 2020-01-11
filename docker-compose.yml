@@ -6,6 +6,7 @@ services:
     volumes:
       - /docker/weatherstation/data:/var/lib/mysql
     restart: on-failure
+    command: --max_allowed_packet=32505856 '--wait_timeout=28800'
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_DATABASE: master_data_base

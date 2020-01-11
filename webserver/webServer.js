@@ -23,6 +23,14 @@ function handleDisconnectedDatabase(){
       setTimeout(handleDisconnectedDatabase, 2000)
     }
   })
+  myDataBaseHandler.connection.on('error', function(err) {
+    console.log('db error', err);
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') {
+      setTimeout(handleDisconnectedDatabase, 2000)
+    } else {
+      throw err;
+    }
+  });
 }
 
 handleDisconnectedDatabase()

@@ -3,9 +3,9 @@ version: '3.3'
 services:
   db:
     image: mariadb:10.3
+    restart: always
     volumes:
       - /docker/weatherstation/data:/var/lib/mysql
-    restart: on-failure
     command: --max_allowed_packet=32505856 '--wait_timeout=28800'
     environment:
       MYSQL_ROOT_PASSWORD: ""
@@ -16,6 +16,7 @@ services:
 
   datahandler:
     image: aaj07/weatherstation-datahandler:latest
+    restart: always
     depends_on:
       - db
     environment:  
@@ -24,19 +25,19 @@ services:
     
   weatherstation_server:
     image: aaj07/weatherstation-server:latest
+    restart: always
     depends_on:
       - db
     ports:
       - "8000:8000"
     environment:
       DB_HOST: db
-    restart: on-failure
 
   mosquitto:
     image: eclipse-mosquitto
+    restart: always 
     container_name: mosquitto
     network_mode: host
     ports:
       - "1883:1883"
       - "9001:9001"
-    restart: on-failure

@@ -7,7 +7,6 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "bootstrap-slider": "^10.6.2",
-    "dgram": "^1.0.1",
     "express": "^4.17.1",
     "http": "0.0.1-security",
     "mocha": "^7.1.1",
@@ -15,7 +14,8 @@
     "mqtt": "^3.0.0",
     "mysql": "^2.18.1",
     "pug": "^2.0.4",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "uglify-js": "^3.8.1"
   },
   "scripts": {
     "test": "node node_modules/jasmine/bin/jasmine",
@@ -26,6 +26,6 @@
   "license": "MIT",
   "devDependencies": {
     "jasmine": "^3.5.0",
-    "nyc": "^15.0.0"
+    "nyc": "^15.0.1"
   }
 }

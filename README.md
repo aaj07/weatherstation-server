@@ -1,11 +1,11 @@
 # Weatherstation - Server
 
-[![Build Status](https://travis-ci.com/aaj07/weatherstation-server.svg?branch=master)](https://travis-ci.com/aaj07/weatherstation-server)
+[![Build Status](https://travis-ci.com/jerey/weatherstation-server.svg?branch=master)](https://travis-ci.com/jerey/weatherstation-server)
 
 This project provides a server for a weatherstation.
 It subscribes to various MQTT topics, stores the retrieved data based on the content and visualizes it.
 
-See also [Weatherstation Client](https://github.com/aaj07/weatherstation-client).
+See also [Weatherstation Client](https://github.com/jerey/weatherstation-client).
 
 ## Building and starting the server
 
@@ -40,8 +40,8 @@ Following mqtt topics are currently in use for the visualization and storing of 
 #### esp\/\#
 
 This topic is used to insert new values to the database.
-The [weatherstation client](https://github.com/aaj07/weatherstation-client) can be used for publishing new data. The expected format is: ```esp/UID/VALUE_TYPE```.
-The [weatherstation client](https://github.com/aaj07/weatherstation-client) uses the ```mac adress``` of the device as ```UID``` and either the ```humidity``` or the ```temperature``` for the ```VALUE_TYPE```.
+The [weatherstation client](https://github.com/jerey/weatherstation-client) can be used for publishing new data. The expected format is: ```esp/UID/VALUE_TYPE```.
+The [weatherstation client](https://github.com/jerey/weatherstation-client) uses the ```mac adress``` of the device as ```UID``` and either the ```humidity``` or the ```temperature``` for the ```VALUE_TYPE```.
 
 #### db\/newValues\/\#
 

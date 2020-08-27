@@ -15,7 +15,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
 
   datahandler:
-    image: aaj07/weatherstation-datahandler:latest
+    image: jerey/weatherstation-datahandler:latest
     restart: always
     depends_on:
       - db
@@ -24,7 +24,7 @@ services:
     restart: on-failure
     
   weatherstation_server:
-    image: aaj07/weatherstation-server:latest
+    image: jerey/weatherstation-server:latest
     restart: always
     depends_on:
       - db

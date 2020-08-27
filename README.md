@@ -17,7 +17,7 @@ To directly start the server, without building it, one can use pre-built docker 
 
 ```docker-compose -f docker-compose.yml up```
 
-This will, based on the defined version in the docker-compose.yml, pull two pre-built docker images of the weatherstation in the given version. For the available versions, please see the [weatherstation server](https://hub.docker.com/r/aaj07/weatherstation-server) and the [weatherstation datahandler](https://hub.docker.com/r/aaj07/weatherstation-datahandler).
+This will, based on the defined version in the docker-compose.yml, pull two pre-built docker images of the weatherstation in the given version. For the available versions, please see the [weatherstation server](https://hub.docker.com/r/jerey/weatherstation-server) and the [weatherstation datahandler](https://hub.docker.com/r/jerey/weatherstation-datahandler).
 
 ## Building the server
 

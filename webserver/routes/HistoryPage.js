@@ -1,18 +1,24 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-var dataBaseHandler = require('../controller/DataBaseHandler');
-var moment = require('moment');
+var dataBaseHandler = require("../controller/DataBaseHandler");
+var moment = require("moment");
 
-router.get('/', function (req, res) {
-  var allMacAdressesConverted = [];
-  
-  req.app.locals.dataBaseHandler.getAllMacAdresses(function (err, macAdresses) {
+router.get("/", function (req, res) {
+  var allMacAddressesConverted = [];
+
+  req.app.locals.dataBaseHandler.getAllMacAddresses(function (
+    err,
+    macAddresses
+  ) {
     if (!err) {
-      macAdresses.forEach(element => {
-        allMacAdressesConverted.push({ macAdress: element.mac, name: element.name });
+      macAddresses.forEach((element) => {
+        allMacAddressesConverted.push({
+          macAddress: element.mac,
+          name: element.name,
+        });
       });
-      res.render('history', {
-        allAvailableMac: JSON.stringify(allMacAdressesConverted)
+      res.render("history", {
+        allAvailableMac: JSON.stringify(allMacAddressesConverted),
       });
     } else {
       console.log(err);

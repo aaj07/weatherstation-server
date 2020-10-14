@@ -98,6 +98,7 @@ describe('Get temperature successfully for ', function () {
       arguments[1](null, true);
     })
   });
+
   it('limited number of values from db.', function () {
     var limit = '10';
     var orderBy = 'ASC';
@@ -370,6 +371,16 @@ describe('Value operations ', function () {
     uut.selectValueFromColumnInTable(tableName, key, keyColumnName, function (error, result) {
       expect(mysqlConnectionFake.query).toHaveBeenCalledWith(expectedString, jasmine.any(Function));
 
+    });
+  });
+  it('limited number of values from db.', function () {
+    var limit = '10';
+    var orderBy = 'ASC';
+    var tableName = "TableName"
+    uut.getLimitedNrOfValuesBasedOnTableNameFromDB(testDataBaseName, tableName, limit, orderBy, function (error, result) {
+      expect(mysqlConnectionFake.query).toHaveBeenCalledWith('SELECT * FROM ' + testDataBaseName + '.' + tableName + ' ORDER BY ' + orderBy + ' LIMIT ' + limit, jasmine.any(Function));
+      expect(error).toBe(null);
+      expect(result).toBe(true);
     });
   });
 });

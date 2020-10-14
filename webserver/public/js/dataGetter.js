@@ -1,27 +1,39 @@
 function getUpdateForChartBasedOnTimeStamps(timeStampFrom, timeStampTo) {
-  getTemperatureByMacBasedOnTimeStamps(timeStampFrom, timeStampTo)
-  getHumidityByMacBasedOnTimeStamps(timeStampFrom, timeStampTo)
-  getVoltageByMacBasedOnTimeStamps(timeStampFrom, timeStampTo)
+  getTemperatureByMacBasedOnTimeStamps(timeStampFrom, timeStampTo);
+  getHumidityByMacBasedOnTimeStamps(timeStampFrom, timeStampTo);
+  getVoltageByMacBasedOnTimeStamps(timeStampFrom, timeStampTo);
 }
 function getTemperatureByMacBasedOnTimeStamps(timeStampFrom, timeStampTo) {
-  getDataByMacBasedOnTimeStamps('getTempDataForTimeGivenTimespanForMac', timeStampFrom, timeStampTo)
+  getDataByMacBasedOnTimeStamps(
+    "getTempDataForTimeGivenTimespanForMac",
+    timeStampFrom,
+    timeStampTo
+  );
 }
 function getHumidityByMacBasedOnTimeStamps(timeStampFrom, timeStampTo) {
-  getDataByMacBasedOnTimeStamps('getHumDataForTimeGivenTimespanForMac', timeStampFrom, timeStampTo)
+  getDataByMacBasedOnTimeStamps(
+    "getHumDataForTimeGivenTimespanForMac",
+    timeStampFrom,
+    timeStampTo
+  );
 }
 function getVoltageByMacBasedOnTimeStamps(timeStampFrom, timeStampTo) {
-  getDataByMacBasedOnTimeStamps('getVoltDataForTimeGivenTimespanForMac', timeStampFrom, timeStampTo)
+  getDataByMacBasedOnTimeStamps(
+    "getVoltDataForTimeGivenTimespanForMac",
+    timeStampFrom,
+    timeStampTo
+  );
 }
 function getDataByMacBasedOnTimeStamps(dataType, timeStampFrom, timeStampTo) {
   socket.emit(dataType, {
-    macAdress: $('#selectMacAdress').val(),
+    macAddress: $("#selectMacAddress").val(),
     fromTimeStamp: timeStampFrom,
-    toTimeStamp: timeStampTo
+    toTimeStamp: timeStampTo,
   });
 }
 
 function getUpdateForMac() {
-  socket.emit('getMinAndMaxTimestampForMac', {
-    macAdress: $('#selectMacAdress').val()
+  socket.emit("getMinAndMaxTimestampForMac", {
+    macAddress: $("#selectMacAddress").val(),
   });
 }

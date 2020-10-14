@@ -1,55 +1,58 @@
 var socket = io().connect();
 
-$('#selectMacAdress').change(function () {
-  updateChartForThePast24hours()
+$("#selectMacAddress").change(function () {
+  updateChartForThePast24hours();
 });
 $(function () {
-  socket.on('temperature update', function (datapackageFromServer) {
-    if ($('#selectMacAdress').val() == datapackageFromServer.macAdress) {
+  socket.on("temperature update", function (datapackageFromServer) {
+    if ($("#selectMacAddress").val() == datapackageFromServer.macAddress) {
       var temperature = datapackageFromServer.value;
       var timeStamp = datapackageFromServer.timeStamp;
       addData(TemperatureChart, temperature, timeStamp);
-      $('#temperature').text(temperature + '° C');
+      $("#temperature").text(temperature + "° C");
     }
   });
-  socket.on('humidity update', function (datapackageFromServer) {
-    if ($('#selectMacAdress').val() == datapackageFromServer.macAdress) {
+  socket.on("humidity update", function (datapackageFromServer) {
+    if ($("#selectMacAddress").val() == datapackageFromServer.macAddress) {
       var humidity = datapackageFromServer.value;
       var timeStamp = datapackageFromServer.timeStamp;
       addData(HumidityChart, humidity, timeStamp);
-      $('#humidity').text(humidity + '%');
+      $("#humidity").text(humidity + "%");
     }
   });
-  socket.on('voltage update', function (datapackageFromServer) {
-    if ($('#selectMacAdress').val() == datapackageFromServer.macAdress) {
+  socket.on("voltage update", function (datapackageFromServer) {
+    if ($("#selectMacAddress").val() == datapackageFromServer.macAddress) {
       var voltage = datapackageFromServer.value;
       var timeStamp = datapackageFromServer.timeStamp;
       addData(VoltageChart, voltage, timeStamp);
-      $('#voltage').text(voltage + ' V');
+      $("#voltage").text(voltage + " V");
     }
   });
-  socket.on('mac update', function (newMacAdress) {
-    var ctxDropDownMacs = document.getElementById("selectMacAdress");
+  socket.on("mac update", function (newMacAddress) {
+    var ctxDropDownMacs = document.getElementById("selectMacAddress");
     var element = document.createElement("option");
-    element.textContent = newMacAdress;
-    element.value = newMacAdress;
+    element.textContent = newMacAddress;
+    element.value = newMacAddress;
     ctxDropDownMacs.appendChild(element);
   });
-})
-if (!$('#selectMacAdress').val()) {
-  console.log("No mac adress yet given");
+});
+if (!$("#selectMacAddress").val()) {
+  console.log("No mac address yet given");
 } else {
-  console.log("Updating with the mac value " + $('#selectMacAdress').val())
-  updateChartForThePast24hours()
+  console.log("Updating with the mac value " + $("#selectMacAddress").val());
+  updateChartForThePast24hours();
 }
 
 function updateChartForThePast24hours() {
-  getUpdateForChartBasedOnTimeStamps(get24hPastTimeStamp(), getCurrentTimeStamp());
+  getUpdateForChartBasedOnTimeStamps(
+    get24hPastTimeStamp(),
+    getCurrentTimeStamp()
+  );
 }
 
 function getCurrentTimeStamp() {
-  return Math.round((new Date()).getTime() / 1000);
+  return Math.round(new Date().getTime() / 1000);
 }
 function get24hPastTimeStamp() {
-  return getCurrentTimeStamp() - (24 * 3600)
+  return getCurrentTimeStamp() - 24 * 3600;
 }

@@ -4,25 +4,25 @@ var MyDataBaseHandler = {};
 module.exports = DataBaseHandler;
 
 function DataBaseHandler(mysql, host, user, password) {
-  this.mysql = mysql
-  this.host = host
-  this.user = user
-  this.password = password
-  this.masterDataBaseName = `master_data_base`
-  this.masterTableName = `master_table`
+  this.mysql = mysql;
+  this.host = host;
+  this.user = user;
+  this.password = password;
+  this.masterDataBaseName = `master_data_base`;
+  this.masterTableName = `master_table`;
 }
 
-DataBaseHandler.prototype.createDatabaseConnection = function(error) {
+DataBaseHandler.prototype.createDatabaseConnection = function (error) {
   this.connection = this.mysql.createConnection({
     host: this.host,
     user: this.user,
     password: this.password,
-    insecureAuth: true
+    insecureAuth: true,
   });
   this.connection.connect(error);
-}
+};
 
-function writeQueryToConnection (connection, sqlQuery, callback) {
+function writeQueryToConnection(connection, sqlQuery, callback) {
   console.log(`About to execute following query: `, sqlQuery);
   connection.query(sqlQuery, callback);
   console.log(`Query [`, sqlQuery, `] executed!`);
@@ -34,79 +34,202 @@ function logError(error) {
   }
 }
 
-DataBaseHandler.prototype.createDatabase = function(dataBaseName) {
+DataBaseHandler.prototype.createDatabase = function (dataBaseName) {
   var sql = `CREATE DATABASE IF NOT EXISTS ${dataBaseName}`;
   writeQueryToConnection(this.connection, sql, logError);
   console.log(`Database [`, dataBaseName, `] created`);
-}
+};
 
-DataBaseHandler.prototype.getLimitedNrOfValuesBasedOnTableNameFromDB = function(dataBaseName, tableName, limit, orderBy, callback) {
-  getLimitedNrOfValuesFromDB(this.connection, dataBaseName, tableName, limit, orderBy, callback)
-}
-DataBaseHandler.prototype.getLimitedNrOfTemperatureValuesFromDB = function(dataBaseName, limit, orderBy, callback) {
-  getLimitedNrOfValuesFromDB(this.connection, dataBaseName, `temperature`, limit, orderBy, callback);
-}
-DataBaseHandler.prototype.getLimitedNrOfHumidityValuesFromDB = function(dataBaseName, limit, orderBy, callback) {
-  getLimitedNrOfValuesFromDB(this.connection, dataBaseName, `humidity`, limit, orderBy, callback);
-}
-DataBaseHandler.prototype.getLimitedNrOfVoltageValuesFromDB = function(dataBaseName, limit, orderBy, callback) {
-  getLimitedNrOfValuesFromDB(this.connection, dataBaseName, `voltage`, limit, orderBy, callback);
-}
-function getLimitedNrOfValuesFromDB(connection, dataBaseName, tableName, limit, orderBy, callback) {
+DataBaseHandler.prototype.getLimitedNrOfValuesBasedOnTableNameFromDB = function (
+  dataBaseName,
+  tableName,
+  limit,
+  orderBy,
+  callback
+) {
+  getLimitedNrOfValuesFromDB(
+    this.connection,
+    dataBaseName,
+    tableName,
+    limit,
+    orderBy,
+    callback
+  );
+};
+DataBaseHandler.prototype.getLimitedNrOfTemperatureValuesFromDB = function (
+  dataBaseName,
+  limit,
+  orderBy,
+  callback
+) {
+  getLimitedNrOfValuesFromDB(
+    this.connection,
+    dataBaseName,
+    `temperature`,
+    limit,
+    orderBy,
+    callback
+  );
+};
+DataBaseHandler.prototype.getLimitedNrOfHumidityValuesFromDB = function (
+  dataBaseName,
+  limit,
+  orderBy,
+  callback
+) {
+  getLimitedNrOfValuesFromDB(
+    this.connection,
+    dataBaseName,
+    `humidity`,
+    limit,
+    orderBy,
+    callback
+  );
+};
+DataBaseHandler.prototype.getLimitedNrOfVoltageValuesFromDB = function (
+  dataBaseName,
+  limit,
+  orderBy,
+  callback
+) {
+  getLimitedNrOfValuesFromDB(
+    this.connection,
+    dataBaseName,
+    `voltage`,
+    limit,
+    orderBy,
+    callback
+  );
+};
+function getLimitedNrOfValuesFromDB(
+  connection,
+  dataBaseName,
+  tableName,
+  limit,
+  orderBy,
+  callback
+) {
   var sql = `SELECT * FROM ${dataBaseName}.${tableName} ORDER BY ${orderBy} LIMIT ${limit}`;
   writeQueryToConnection(connection, sql, callback);
 }
 
-DataBaseHandler.prototype.getTemperatureValuesBetweenTimeStampsFromDB = function(dataBaseName, fromTimeStamp, toTimeStamp, callback) {
-  getValuesBetweenTimeStampsFromDB(this.connection, dataBaseName, `temperature`, fromTimeStamp, toTimeStamp, callback);
-}
-DataBaseHandler.prototype.getHumidityValuesBetweenTimeStampsFromDB = function(dataBaseName, fromTimeStamp, toTimeStamp, callback) {
-  getValuesBetweenTimeStampsFromDB(this.connection, dataBaseName, `humidity`, fromTimeStamp, toTimeStamp, callback);
-}
-DataBaseHandler.prototype.getVoltageValuesBetweenTimeStampsFromDB = function(dataBaseName, fromTimeStamp, toTimeStamp, callback) {
-  getValuesBetweenTimeStampsFromDB(this.connection, dataBaseName, `voltage`, fromTimeStamp, toTimeStamp, callback);
-}
-function getValuesBetweenTimeStampsFromDB(connection, dataBaseName, tableName, fromTimeStamp, toTimeStamp, callback) {
+DataBaseHandler.prototype.getTemperatureValuesBetweenTimeStampsFromDB = function (
+  dataBaseName,
+  fromTimeStamp,
+  toTimeStamp,
+  callback
+) {
+  getValuesBetweenTimeStampsFromDB(
+    this.connection,
+    dataBaseName,
+    `temperature`,
+    fromTimeStamp,
+    toTimeStamp,
+    callback
+  );
+};
+DataBaseHandler.prototype.getHumidityValuesBetweenTimeStampsFromDB = function (
+  dataBaseName,
+  fromTimeStamp,
+  toTimeStamp,
+  callback
+) {
+  getValuesBetweenTimeStampsFromDB(
+    this.connection,
+    dataBaseName,
+    `humidity`,
+    fromTimeStamp,
+    toTimeStamp,
+    callback
+  );
+};
+DataBaseHandler.prototype.getVoltageValuesBetweenTimeStampsFromDB = function (
+  dataBaseName,
+  fromTimeStamp,
+  toTimeStamp,
+  callback
+) {
+  getValuesBetweenTimeStampsFromDB(
+    this.connection,
+    dataBaseName,
+    `voltage`,
+    fromTimeStamp,
+    toTimeStamp,
+    callback
+  );
+};
+function getValuesBetweenTimeStampsFromDB(
+  connection,
+  dataBaseName,
+  tableName,
+  fromTimeStamp,
+  toTimeStamp,
+  callback
+) {
   var sql = `SELECT * FROM ${dataBaseName}.${tableName} WHERE timestamp BETWEEN \'${fromTimeStamp}\' AND \'${toTimeStamp}\'`;
   writeQueryToConnection(connection, sql, callback);
 }
 
-DataBaseHandler.prototype.getMaxTimeStampForMacFromDB = function(dataBaseName, callback){
+DataBaseHandler.prototype.getMaxTimeStampForMacFromDB = function (
+  dataBaseName,
+  callback
+) {
   getMinOrMaxTimeStampFromDB(this.connection, dataBaseName, `MAX`, callback);
-}
-DataBaseHandler.prototype.getMinTimeStampForMacFromDB = function(dataBaseName, callback){
+};
+DataBaseHandler.prototype.getMinTimeStampForMacFromDB = function (
+  dataBaseName,
+  callback
+) {
   getMinOrMaxTimeStampFromDB(this.connection, dataBaseName, `MIN`, callback);
-}
-function getMinOrMaxTimeStampFromDB(connection, dataBaseName, minOrMax, callback) {
+};
+function getMinOrMaxTimeStampFromDB(
+  connection,
+  dataBaseName,
+  minOrMax,
+  callback
+) {
   var sql = `SELECT ${minOrMax}(timestamp) FROM (SELECT timestamp FROM ${dataBaseName}.humidity UNION ALL SELECT timestamp FROM ${dataBaseName}.temperature) as subQuery`;
   writeQueryToConnection(connection, sql, callback);
 }
 
-DataBaseHandler.prototype.getAllTemperatureValuesFromDB = function(dataBaseName, callback) {
+DataBaseHandler.prototype.getAllTemperatureValuesFromDB = function (
+  dataBaseName,
+  callback
+) {
   getAllValuesFromDB(this.connection, dataBaseName, `temperature`, callback);
-}
-DataBaseHandler.prototype.getAllHumidityValuesFromDB = function(dataBaseName, callback) {
+};
+DataBaseHandler.prototype.getAllHumidityValuesFromDB = function (
+  dataBaseName,
+  callback
+) {
   getAllValuesFromDB(this.connection, dataBaseName, `humidity`, callback);
-}
-DataBaseHandler.prototype.getAllVoltageValuesFromDB = function(dataBaseName, callback) {
+};
+DataBaseHandler.prototype.getAllVoltageValuesFromDB = function (
+  dataBaseName,
+  callback
+) {
   getAllValuesFromDB(this.connection, dataBaseName, `voltage`, callback);
-}
-function getAllValuesFromDB(connection, dataBaseName, tableName, callback){
+};
+function getAllValuesFromDB(connection, dataBaseName, tableName, callback) {
   var sql = `SELECT * FROM ${dataBaseName}.${tableName}`;
   writeQueryToConnection(connection, sql, callback);
 }
 
-DataBaseHandler.prototype.getAllMacAdresses = function(callback) {
+DataBaseHandler.prototype.getAllMacAddresses = function (callback) {
   var sql = `SELECT mac,name FROM ${this.masterDataBaseName}.${this.masterTableName}`;
   writeQueryToConnection(this.connection, sql, callback);
-}
+};
 
-DataBaseHandler.prototype.getAllNamesForTheMacAdress = function(callback) {
+DataBaseHandler.prototype.getAllNamesForTheMacAddress = function (callback) {
   sql = `SELECT name FROM ${this.masterDataBaseName}.${this.masterTableName}`;
   writeQueryToConnection(this.connection, sql, callback);
-}
+};
 
-DataBaseHandler.prototype.createTable = function(dataBaseName, tableName, ...columnDataType) {
+DataBaseHandler.prototype.createTable = function (
+  dataBaseName,
+  tableName,
+  ...columnDataType
+) {
   var sql = `CREATE TABLE IF NOT EXISTS ${dataBaseName}.${tableName} (`;
   for (var i = 0; i < columnDataType.length; i++) {
     if (i != 0) {
@@ -114,22 +237,30 @@ DataBaseHandler.prototype.createTable = function(dataBaseName, tableName, ...col
     }
     sql += columnDataType[i].columnName + ` ` + columnDataType[i].dataType;
     if (i == 0) {
-      sql += ` UNIQUE`
+      sql += ` UNIQUE`;
     }
   }
   sql += `)`;
   writeQueryToConnection(this.connection, sql, logError);
-}
+};
 
-DataBaseHandler.prototype.insertIntoTable = function(dataBaseName, tableName, ...columnDataType) {
+DataBaseHandler.prototype.insertIntoTable = function (
+  dataBaseName,
+  tableName,
+  ...columnDataType
+) {
   var sql = `INSERT INTO ${dataBaseName}.${tableName} (`;
   privateInsertIntoTable(this.connection, sql, ...columnDataType);
-}
+};
 
-DataBaseHandler.prototype.insertIgnoreIntoTable = function(dataBaseName, tableName, ...columnDataType) {
+DataBaseHandler.prototype.insertIgnoreIntoTable = function (
+  dataBaseName,
+  tableName,
+  ...columnDataType
+) {
   var sql = `INSERT IGNORE INTO ${dataBaseName}.${tableName} (`;
   privateInsertIntoTable(this.connection, sql, ...columnDataType);
-}
+};
 
 function privateInsertIntoTable(connection, sql, ...columnDataType) {
   for (var i = 0; i < columnDataType.length; i++) {
@@ -150,12 +281,25 @@ function privateInsertIntoTable(connection, sql, ...columnDataType) {
   writeQueryToConnection(connection, sql, logError);
 }
 
-DataBaseHandler.prototype.updateValueOfKeyInTable = function(dataBaseName, tableName, key, keyColumnName, value, valueColumnName) {
+DataBaseHandler.prototype.updateValueOfKeyInTable = function (
+  dataBaseName,
+  tableName,
+  key,
+  keyColumnName,
+  value,
+  valueColumnName
+) {
   var sql = `UPDATE ${dataBaseName}.${tableName} SET ${valueColumnName} = \'${value}\' WHERE ${keyColumnName} = \'${key}\'`;
   writeQueryToConnection(this.connection, sql, logError);
-}
+};
 
-DataBaseHandler.prototype.selectValueFromColumnInTable = function(dataBaseName, tableName, key, keyColumnName, callback) {
+DataBaseHandler.prototype.selectValueFromColumnInTable = function (
+  dataBaseName,
+  tableName,
+  key,
+  keyColumnName,
+  callback
+) {
   var sql = `SELECT * FROM ${dataBaseName}.${tableName} WHERE ${keyColumnName} = \'${key}\'`;
   writeQueryToConnection(this.connection, sql, callback);
-}
+};

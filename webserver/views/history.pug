@@ -25,7 +25,7 @@ html
       div(class="row")
         div(class="col-md-4")
           b clients
-          select#selectMacAdress(class="form-control", name = "selectMacAdress")
+          select#selectMacAddress(class="form-control", name = "selectMacAddress")
         div#timeRangeSliderContainer(class="col-md-8")
           span#timeRangeSliderCurrentSliderValLabel
           | Time Range: 
@@ -58,16 +58,16 @@ html
             a.btn.btn-primary(href='login.html') Logout
     
     script.
-      var allMacAdresses = !{ allAvailableMac };
-      var ctxDropDownMacs = document.getElementById("selectMacAdress");
-      allMacAdresses.forEach(function (macElement) {
+      var allMacAddresses = !{ allAvailableMac };
+      var ctxDropDownMacs = document.getElementById("selectMacAddress");
+      allMacAddresses.forEach(function (macElement) {
         var element = document.createElement("option");
         if ((typeof (macElement.name) == 'undefined') || (macElement.name == null)) {
-          element.textContent = macElement.macAdress;
+          element.textContent = macElement.macAddress;
         } else {
           element.textContent = macElement.name;
         }
-        element.value = macElement.macAdress;
+        element.value = macElement.macAddress;
         ctxDropDownMacs.appendChild(element);
       });
     script(src="/js/dataGetter.js")

@@ -34,7 +34,7 @@ services:
       DB_HOST: db
 
   mosquitto:
-    image: eclipse-mosquitto
+    image: eclipse-mosquitto:1.6
     restart: always 
     container_name: mosquitto
     network_mode: host
